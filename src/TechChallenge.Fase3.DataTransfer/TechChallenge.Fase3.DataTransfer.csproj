@@ -6,8 +6,4 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\TechChallenge.Fase3.Domain\TechChallenge.Fase3.Domain.csproj" />
-    </ItemGroup>
-
 </Project>

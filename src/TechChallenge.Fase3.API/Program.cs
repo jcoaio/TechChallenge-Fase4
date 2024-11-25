@@ -1,44 +1,58 @@
+using Microsoft.OpenApi.Models;
+using System.Text;
+using System.Text.Json.Serialization;
+using TechChallenge.Fase3.Application.Contatos.Servicos;
+using TechChallenge.Fase3.Domain.Contatos.Servicos;
+using TechChallenge.Fase3.Infra.Contatos;
+using TechChallenge.Fase3.Infra.Utils.DBContext;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddTransient<DapperContext>();
+
+builder.Services.Scan(scan => scan.FromAssemblyOf<ContatosAppServico>().AddClasses().AsImplementedInterfaces().WithScopedLifetime());
+builder.Services.Scan(scan => scan.FromAssemblyOf<ContatosRepositorio>().AddClasses().AsImplementedInterfaces().WithScopedLifetime());
+builder.Services.Scan(scan => scan.FromAssemblyOf<ContatosServico>().AddClasses().AsImplementedInterfaces().WithScopedLifetime());
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
+builder.Services.AddSwaggerGen(b =>
+{
+    b.SwaggerDoc("v1", new OpenApiInfo { Title = "TechChallenge.5Nett.API" });
+});
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.UseCors(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.AllowAnyHeader();
+    c.AllowAnyMethod();
+    c.AllowAnyOrigin();
+});
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+app.UseAuthorization();
 
-app.MapGet("/weatherforecast", () =>
-    {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-        return forecast;
-    })
-    .WithName("GetWeatherForecast")
-    .WithOpenApi();
+app.MapControllers();
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+public partial class Program { }

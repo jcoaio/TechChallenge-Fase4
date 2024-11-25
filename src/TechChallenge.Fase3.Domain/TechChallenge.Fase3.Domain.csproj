@@ -6,4 +6,7 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="..\TechChallenge.Fase3.DataTransfer\TechChallenge.Fase3.DataTransfer.csproj" />
+	</ItemGroup>
 </Project>
