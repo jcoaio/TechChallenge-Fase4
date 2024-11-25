@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\TechChallenge.Fase3.Application\TechChallenge.Fase3.Application.csproj" />
+      <ProjectReference Include="..\TechChallenge.Fase3.Domain\TechChallenge.Fase3.Domain.csproj" />
+      <ProjectReference Include="..\TechChallenge.Fase3.Infra\TechChallenge.Fase3.Infra.csproj" />
+    </ItemGroup>
+
+</Project>

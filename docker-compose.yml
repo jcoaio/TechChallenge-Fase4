@@ -1,0 +1,6 @@
+﻿services:
+  techchallenge.fase3.api:
+    image: techchallenge.fase3.api
+    build:
+      context: .
+      dockerfile: src/TechChallenge.Fase3.API/Dockerfile
