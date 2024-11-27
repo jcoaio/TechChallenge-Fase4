@@ -1,4 +1,5 @@
-﻿using TechChallenge.Fase3.Domain.Regioes.Entidades;
+﻿using TechChallenge.Fase3.Domain.Contatos.Comandos;
+using TechChallenge.Fase3.Domain.Regioes.Entidades;
 
 namespace TechChallenge.Fase3.Domain.Contatos.Entidades
 {
@@ -52,5 +53,13 @@ namespace TechChallenge.Fase3.Domain.Contatos.Entidades
         {
             Regiao = regiao;
         }
+
+        public ContatoInserirComando toComando() => new()
+        {
+            DDD = DDD.Value,
+            Telefone = Telefone,
+            Email = Email,
+            Nome = Nome
+        };
     }
 }

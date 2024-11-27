@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
-using TechChallenge.Fase3.Domain.Contatos.Entidades;
-using TechChallenge.Fase3.Domain.Regioes.Repositorios;
-using TechChallenge.Fase3.Domain.Contatos.Repositorios.Filtros;
-using TechChallenge.Fase3.Domain.Regioes.Entidades;
-using TechChallenge.Fase3.Domain.Contatos.Servicos.Interfaces;
 using TechChallenge.Fase3.Application.Contatos.Interfaces;
-using TechChallenge.Fase3.DataTransfer.Contatos.Requests;
-using TechChallenge.Fase3.DataTransfer.Regioes.Responses;
-using TechChallenge.Fase3.DataTransfer.Utils;
 using TechChallenge.Fase3.DataTransfer.Contatos.Reponses;
+using TechChallenge.Fase3.DataTransfer.Contatos.Requests;
+using TechChallenge.Fase3.DataTransfer.Utils;
+using TechChallenge.Fase3.Domain.Contatos.Entidades;
+using TechChallenge.Fase3.Domain.Contatos.Repositorios.Filtros;
+using TechChallenge.Fase3.Domain.Contatos.Servicos.Interfaces;
+using TechChallenge.Fase3.Domain.Regioes.Entidades;
+using TechChallenge.Fase3.Domain.Regioes.Repositorios;
 
 namespace TechChallenge.Fase3.Application.Contatos.Servicos
 {
@@ -25,24 +24,14 @@ namespace TechChallenge.Fase3.Application.Contatos.Servicos
             return response;
         }
 
-        public async Task<ContatoResponse> InserirContatoAsync(ContatoCrudRequest request)
+        public Task InserirContatoAsync(ContatoCrudRequest request)
         {
             ContatoFiltro contatoFiltro = mapper.Map<ContatoFiltro>(request);
 
-            Contato contato = await contatosServico.InserirContatoAsync(contatoFiltro);
-
-            ContatoResponse contatoResponse = mapper.Map<ContatoResponse>(contato);
-
-            List<Regiao> result = await regioesRepositorio.ListarRegioesAsync((int)contatoResponse.DDD!);
-            Regiao? regiaoConsulta = result.FirstOrDefault();
-
-            RegiaoResponse regiaoResponse = mapper.Map<RegiaoResponse>(regiaoConsulta);
-
-            contatoResponse.Regiao = regiaoResponse;
-            return contatoResponse;
+            return contatosServico.InserirContatoAsync(contatoFiltro);
         }
 
-        public async Task<ContatoResponse?> AtualizarContatoAsync(ContatoCrudRequest request, int id)
+        public async Task AtualizarContatoAsync(ContatoCrudRequest request, int id)
         {
             if (!request.DDD.HasValue || request.DDD <= 0)
                 throw new Exception("Código de DDD inválido.");
@@ -56,8 +45,7 @@ namespace TechChallenge.Fase3.Application.Contatos.Servicos
             contatoAtualizado.SetEmail(request.Email!);
             contatoAtualizado.SetNome(request.Nome!);
             contatoAtualizado.SetTelefone(request.Telefone!);
-
-            return mapper.Map<ContatoResponse>(await contatosServico.AtualizarContatoAsync(contatoAtualizado));
+            await contatosServico.AtualizarContatoAsync(contatoAtualizado);
         }
 
         public async Task RemoverContatoAsync(int id)

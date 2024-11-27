@@ -6,8 +6,8 @@ namespace TechChallenge.Fase3.Application.Contatos.Interfaces
 {
     public interface IContatosAppServico
     {
-        Task<ContatoResponse?> AtualizarContatoAsync(ContatoCrudRequest request, int id);
-        Task<ContatoResponse> InserirContatoAsync(ContatoCrudRequest request);
+        Task AtualizarContatoAsync(ContatoCrudRequest request, int id);
+        Task InserirContatoAsync(ContatoCrudRequest request);
         Task<PaginacaoConsulta<ContatoResponse>> ListarContatosComPaginacaoAsync(ContatoPaginacaoRequest request);
         Task<List<ContatoResponse>> ListarContatosSemPaginacaoAsync(ContatoRequest request);
         Task<ContatoResponse> RecuperarContatoAsync(int id);

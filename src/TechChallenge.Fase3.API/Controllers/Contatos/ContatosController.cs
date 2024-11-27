@@ -53,7 +53,8 @@ namespace TechChallenge.Fase3.API.Controllers.Contatos
         {
             try
             {
-                return Ok(await contatosAppServico.InserirContatoAsync(request));
+                await contatosAppServico.InserirContatoAsync(request);
+                return Ok();
             }
             catch (ArgumentException ex)
             {
@@ -93,11 +94,8 @@ namespace TechChallenge.Fase3.API.Controllers.Contatos
         {
             try
             {
-                ContatoResponse? contatoResponse = await contatosAppServico.AtualizarContatoAsync(request, id);
-                if (contatoResponse == null)
-                    return BadRequest("Contato não encontrado.");
-
-                return Ok(contatoResponse);
+                await contatosAppServico.AtualizarContatoAsync(request, id);
+                return Ok();
             }
             catch (ArgumentException ex)
             {

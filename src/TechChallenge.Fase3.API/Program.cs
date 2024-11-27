@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using TechChallenge.Fase3.Application.Contatos.Servicos;
 using TechChallenge.Fase3.Domain.Contatos.Servicos;
+using TechChallenge.Fase3.Domain.Utils;
 using TechChallenge.Fase3.Infra.Contatos;
 using TechChallenge.Fase3.Infra.Utils.DBContext;
 
@@ -14,6 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<DapperContext>();
+builder.Services.AddSingleton<Rabbit>();
 
 builder.Services.Scan(scan => scan.FromAssemblyOf<ContatosAppServico>().AddClasses().AsImplementedInterfaces().WithScopedLifetime());
 builder.Services.Scan(scan => scan.FromAssemblyOf<ContatosRepositorio>().AddClasses().AsImplementedInterfaces().WithScopedLifetime());
