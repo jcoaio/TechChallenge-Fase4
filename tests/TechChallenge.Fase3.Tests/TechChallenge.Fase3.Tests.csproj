@@ -7,6 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Dapper" Version="2.1.35" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\..\src\TechChallenge.Fase3.Domain\TechChallenge.Fase3.Domain.csproj" />
     </ItemGroup>
 

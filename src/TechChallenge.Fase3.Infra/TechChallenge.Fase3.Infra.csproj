@@ -7,6 +7,15 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Dapper" Version="2.1.35" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0" />
+      <PackageReference Include="MySql.Data" Version="9.1.0" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="System.Text.Json" Version="9.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\TechChallenge.Fase3.DataTransfer\TechChallenge.Fase3.DataTransfer.csproj" />
       <ProjectReference Include="..\TechChallenge.Fase3.Domain\TechChallenge.Fase3.Domain.csproj" />
     </ItemGroup>
 
