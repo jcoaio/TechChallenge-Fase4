@@ -11,7 +11,7 @@ using TechChallenge.Fase3.Domain.Utils;
 
 namespace TechChallenge.Fase3.Domain.Contatos.Servicos
 {
-    public class ContatosServico(IContatosRepositorio contatosRepositorio, Rabbit rabbit, IMapper mapper) : IContatosServico
+    public class ContatosServico(IContatosRepositorio contatosRepositorio, IMensageriaBus mensageriaBus, IMapper mapper) : IContatosServico
     {
 
         public async Task<PaginacaoConsulta<Contato>> ListarPaginacaoContatosAsync(ContatosPaginadosFiltro request)
@@ -29,16 +29,16 @@ namespace TechChallenge.Fase3.Domain.Contatos.Servicos
             ValidarCampos(novoContato);
             Contato contatoInserir = new(novoContato.Nome!, novoContato.Email!, (int)novoContato.DDD!, novoContato.Telefone!);
 
-            ContatoInserirComando contatoComandos = mapper.Map<ContatoInserirComando>(contatoInserir);
+            ContatoComando contatoComandos = mapper.Map<ContatoComando>(contatoInserir);
 
-            return rabbit.Bus.PubSub.PublishAsync(contatoComandos, TopicosRabbit.Inserir);
+            return mensageriaBus.Bus.PubSub.PublishAsync(contatoComandos, TopicosRabbit.Inserir);
         }
 
         public async Task RemoverContatoAsync(int id)
         {
-            Contato contato = await RecuperarContatoAsync(id);
-            ContatoInserirComando contatoComandos = mapper.Map<ContatoInserirComando>(contato);
-            await rabbit.Bus.PubSub.PublishAsync(contatoComandos, TopicosRabbit.Remover);
+            Contato contato = await RecuperarContatoAsync(id) ?? throw new InvalidOperationException("Contato inexistente.");
+            ContatoComando contatoComandos = mapper.Map<ContatoComando>(contato);
+            await mensageriaBus.Bus.PubSub.PublishAsync(contatoComandos, TopicosRabbit.Remover);
         }
 
         public async Task<Contato> RecuperarContatoAsync(int id)
@@ -48,7 +48,8 @@ namespace TechChallenge.Fase3.Domain.Contatos.Servicos
 
         public async Task AtualizarContatoAsync(Contato contato)
         {
-            await rabbit.Bus.PubSub.PublishAsync(contato, TopicosRabbit.Editar);
+            ContatoComando contatoComandos = mapper.Map<ContatoComando>(contato);
+            await mensageriaBus.Bus.PubSub.PublishAsync(contatoComandos, TopicosRabbit.Editar);
         }
 
         private static void ValidarCampos(ContatoFiltro contatoRequest)

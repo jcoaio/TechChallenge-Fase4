@@ -8,7 +8,7 @@ namespace TechChallenge.Fase3.Application.Contatos.Profiles
     {
         public ContatoProfile()
         {
-            CreateMap<Contato, ContatoInserirComando>().ReverseMap();
+            CreateMap<Contato, ContatoComando>().ReverseMap();
         }
     }
 }
