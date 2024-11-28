@@ -1,33 +1,36 @@
-using AutoMapper;
-using EasyNetQ;
-using TechChallenge.Fase3.Domain.Contatos.Comandos;
-using TechChallenge.Fase3.Domain.Contatos.Entidades;
-using TechChallenge.Fase3.Domain.Contatos.Repositorios;
-using TechChallenge.Fase3.Domain.Utils;
+﻿using ContatoWorker.ContatoServices;
 
 namespace ContatoWorker
 {
-    public class Worker(ILogger<Worker> logger, IContatosRepositorio contatosRepositorio, IMapper mapper) : BackgroundService
+    public class Worker(InserirContato inserirContatoWorker, EditarContato editarContatoWorker, RemoverContato removerContatoWorker) : BackgroundService
     {
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-        {
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                using IBus bus = RabbitHutch.CreateBus("amqp://techchallangeapi:123@lhserver:5672/");
-                await bus.PubSub.SubscribeAsync<ContatoInserirComando>(TopicosRabbit.Inserir, InserirContatoAsync, cancellationToken: stoppingToken);
-            }
-        }
 
-        public async Task InserirContatoAsync(ContatoInserirComando contatoInserirComando)
+        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             try
             {
-                Contato contato = mapper.Map<Contato>(contatoInserirComando);
-                Contato response = await contatosRepositorio.InserirContatoAsync(contato);
+                IEnumerable<Task> tasks = new Task[]
+                    {
+                        editarContatoWorker.ExecuteAsync(cancellationToken),
+                        inserirContatoWorker.ExecuteAsync(cancellationToken),
+                        removerContatoWorker.ExecuteAsync(cancellationToken)
+                    }
+                   .Select(task => task.ContinueWith(task =>
+                   {
+                       if (task.IsFaulted)
+                       {
+                           cancellationToken.ThrowIfCancellationRequested();
+                       }
+                   }));
+
+                await Task.WhenAll(tasks).ConfigureAwait(false);
             }
-            catch (Exception e)
+            catch (AggregateException ex)
             {
-                logger.LogError(e, "Erro ao processo item da fila.");
+                foreach (Exception exception in ex.InnerExceptions)
+                {
+                    Console.WriteLine(exception.Message);
+                }
             }
         }
     }

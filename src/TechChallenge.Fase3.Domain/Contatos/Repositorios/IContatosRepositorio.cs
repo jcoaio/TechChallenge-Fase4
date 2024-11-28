@@ -6,11 +6,11 @@ namespace TechChallenge.Fase3.Domain.Contatos.Repositorios
 {
     public interface IContatosRepositorio
     {
-        Task<Contato> AtualizarContatoAsync(Contato contato);
-        Task<Contato> InserirContatoAsync(Contato contato);
+        Task<Contato> AtualizarContatoAsync(Contato contato, CancellationToken cancellationToken);
+        Task<Contato> InserirContatoAsync(Contato contato, CancellationToken cancellationToken);
         Task<List<Contato>> ListarContatosAsync(ContatoFiltro filtro);
         Task<PaginacaoConsulta<Contato>> ListarPaginacaoContatosAsync(ContatosPaginadosFiltro filtro);
         Task<Contato> RecuperarContatoAsync(int id);
-        Task RemoverContatoAsync(int id);
+        Task RemoverContatoAsync(int id, CancellationToken cancellationToken);
     }
 }

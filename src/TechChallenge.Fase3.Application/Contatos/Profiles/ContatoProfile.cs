@@ -16,8 +16,8 @@ namespace TechChallenge.Fase3.Application.Contatos.Profiles
             CreateMap<ContatoCrudRequest, ContatoFiltro>();
             CreateMap<ContatoRequest, ContatoFiltro>();
             CreateMap<Contato, ContatoResponse>();
-            CreateMap<Contato, ContatoInserirComando>();
-            CreateMap<ContatoInserirComando, Contato>();
+            CreateMap<Contato, ContatoComando>();
+            CreateMap<ContatoComando, Contato>();
             CreateMap<PaginacaoConsulta<Contato>, PaginacaoConsulta<ContatoResponse>>();
         }
     }

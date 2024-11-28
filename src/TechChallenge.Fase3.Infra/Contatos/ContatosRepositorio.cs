@@ -1,5 +1,5 @@
-﻿using Dapper;
-using System.Text;
+﻿using System.Text;
+using Dapper;
 using TechChallenge.Fase3.DataTransfer.Utils;
 using TechChallenge.Fase3.Domain.Contatos.Entidades;
 using TechChallenge.Fase3.Domain.Contatos.Repositorios;
@@ -46,11 +46,11 @@ namespace TechChallenge.Fase3.Infra.Contatos
             string sqlPaginado = GerarQueryPaginacao(sql.ToString(), filtro.Pg, filtro.Qt, filtro.CpOrd, filtro.TpOrd.ToString());
 
 
-            var registros = new Dictionary<int, Contato>();
+            Dictionary<int, Contato> registros = [];
 
-            var queryResult = await session.QueryAsync<Contato, Regiao, Contato>(sqlPaginado, (contato, regiao) =>
+            IEnumerable<Contato> queryResult = await session.QueryAsync<Contato, Regiao, Contato>(sqlPaginado, (contato, regiao) =>
             {
-                if (!registros.TryGetValue(contato.Id.Value, out var existingContato))
+                if (!registros.TryGetValue(contato.Id.Value, out Contato? existingContato))
                 {
                     existingContato = contato;
                     registros[contato.Id.Value] = existingContato;
@@ -100,7 +100,7 @@ namespace TechChallenge.Fase3.Infra.Contatos
             if (!string.IsNullOrEmpty(filtro.Regiao))
                 sql.AppendLine($" AND r.regiao like '%{filtro.Regiao}%' ");
 
-            var result = await session.QueryAsync<Contato, Regiao, Contato>(sql.ToString(), (contato, regiao) =>
+            IEnumerable<Contato> result = await session.QueryAsync<Contato, Regiao, Contato>(sql.ToString(), (contato, regiao) =>
             {
                 contato.SetRegiao(regiao);
                 return contato;
@@ -110,7 +110,7 @@ namespace TechChallenge.Fase3.Infra.Contatos
         }
 
 
-        public async Task<Contato> InserirContatoAsync(Contato contato)
+        public async Task<Contato> InserirContatoAsync(Contato contato, CancellationToken cancellationToken)
         {
             StringBuilder sql = new(@"
                             INSERT INTO techchallenge.contatos
@@ -130,7 +130,7 @@ namespace TechChallenge.Fase3.Infra.Contatos
             parametros.Add("@DDD", contato.DDD);
             parametros.Add("@TELEFONE", contato.Telefone);
 
-            var result = await session.QuerySingleAsync<dynamic>(sql.ToString(), parametros);
+            dynamic result = await session.QuerySingleAsync<dynamic>(sql.ToString(), parametros);
             Regiao regiao = new(result.ddd, result.estado, result.Descricao);
             contato.SetId(result.id);
             contato.SetRegiao(regiao);
@@ -155,14 +155,14 @@ namespace TechChallenge.Fase3.Infra.Contatos
             return await session.QueryFirstOrDefaultAsync<Contato>(sql.ToString());
         }
 
-        public async Task RemoverContatoAsync(int id)
+        public async Task RemoverContatoAsync(int id, CancellationToken cancellationToken)
         {
             StringBuilder sql = new($@"DELETE FROM techchallenge.contatos WHERE id= {id};");
 
             await session.ExecuteAsync(sql.ToString());
         }
 
-        public async Task<Contato> AtualizarContatoAsync(Contato contato)
+        public async Task<Contato> AtualizarContatoAsync(Contato contato, CancellationToken cancellationToken)
         {
             StringBuilder sql = new($@"
                         UPDATE techchallenge.contatos
@@ -171,7 +171,7 @@ namespace TechChallenge.Fase3.Infra.Contatos
                             ddd={contato.DDD}, 
                             telefone='{contato.Telefone}'
                         WHERE id= {contato.Id};");
-            await session.ExecuteAsync(sql.ToString());
+            await session.ExecuteAsync(new CommandDefinition(sql.ToString(), cancellationToken: cancellationToken));
             return await RecuperarContatoAsync((int)contato.Id!);
         }
     }
