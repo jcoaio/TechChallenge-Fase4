@@ -34,7 +34,7 @@
 
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\src\TechChallange.Fase3.Consumer\TechChallange.Fase3.Consumer\TechChallange.Fase3.Consumer.csproj" />
+	  <ProjectReference Include="..\..\src\TechChallange.Fase3.Consumer\TechChallange.Fase3.Consumer.csproj" />
 	  <ProjectReference Include="..\..\src\TechChallenge.Fase3.API\TechChallenge.Fase3.API.csproj" />
 	  <ProjectReference Include="..\..\src\TechChallenge.Fase3.Domain\TechChallenge.Fase3.Domain.csproj" />
 	  <ProjectReference Include="..\..\src\TechChallenge.Fase3.Infra\TechChallenge.Fase3.Infra.csproj" />
