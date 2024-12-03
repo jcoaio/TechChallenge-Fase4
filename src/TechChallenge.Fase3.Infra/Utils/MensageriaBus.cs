@@ -7,6 +7,12 @@ namespace TechChallenge.Fase3.Infra.Utils
     {
         private readonly string connectionString;
         public IBus Bus { get; set; }
+
+        public MensageriaBus(string connectionString)
+        {
+            this.connectionString = connectionString;
+            Bus = RabbitHutch.CreateBus(connectionString);
+        }
         public MensageriaBus(IConfiguration configuration)
         {
             connectionString = configuration.GetConnectionString("rabbitmq")!;
