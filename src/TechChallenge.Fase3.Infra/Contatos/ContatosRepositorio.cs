@@ -130,11 +130,21 @@ namespace TechChallenge.Fase3.Infra.Contatos
             parametros.Add("@DDD", contato.DDD);
             parametros.Add("@TELEFONE", contato.Telefone);
 
-            dynamic result = await session.QuerySingleAsync<dynamic>(sql.ToString(), parametros);
-            Regiao regiao = new(result.ddd, result.estado, result.Descricao);
-            contato.SetId(result.id);
-            contato.SetRegiao(regiao);
-            return contato;
+            try
+            {
+                dynamic result = await session.QuerySingleAsync<dynamic>(sql.ToString(), parametros);
+                Regiao regiao = new(result.ddd, result.estado, result.Descricao);
+                contato.SetId(result.id);
+                contato.SetRegiao(regiao);
+                return contato;
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
+
         }
 
         public async Task<Contato> RecuperarContatoAsync(int id)

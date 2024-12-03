@@ -49,7 +49,7 @@ namespace TechChallenge.Fase3.API.Controllers.Contatos
         /// <param name="request">Dados para cadastro do contato.</param>
         /// <returns>O contato cadastrado.</returns>
         [HttpPost]
-        public async Task<ActionResult<ContatoResponse>> InserirContato(ContatoCrudRequest request)
+        public async Task<ActionResult> InserirContato(ContatoCrudRequest request)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace TechChallenge.Fase3.API.Controllers.Contatos
         /// <param name="id">Código do contato a ser removido</param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ContatoResponse>> RemoverContatoAsync(int id)
+        public async Task<ActionResult> RemoverContatoAsync(int id)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace TechChallenge.Fase3.API.Controllers.Contatos
         /// <param name="request">Dados atualizados</param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<ContatoResponse>> AtualizarContatoAsync(int id, [FromBody] ContatoCrudRequest request)
+        public async Task<ActionResult> AtualizarContatoAsync(int id, [FromBody] ContatoCrudRequest request)
         {
             try
             {
