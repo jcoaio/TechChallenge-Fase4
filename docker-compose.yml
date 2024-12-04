@@ -21,7 +21,7 @@ services:
 
   bus:
     image: rabbitmq:3-management
-    enviroments:
+    environment:
       RABBITMQ_DEFAULT_USER: techchallenge
       RABBITMQ_DEFAULT_PASS: 123456Tech
     ports:
