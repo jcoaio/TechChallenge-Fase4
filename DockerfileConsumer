@@ -1,5 +1,5 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
+USER consumerapp
 WORKDIR /consumerapp
 EXPOSE 8080
 
