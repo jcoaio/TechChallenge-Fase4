@@ -28,7 +28,7 @@ jobs:
     - name: Build and push Consumer
       uses: docker/build-push-action@v6.7.0
       with:
-        context: .
+        context: ./src/TechChallange.Fase3.Consumer
         push: true
         file: DockerfileConsumer
         tags: ${{ secrets.DOCKER_USERNAME }}/techchallenge-consumer:latest
