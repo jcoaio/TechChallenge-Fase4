@@ -26,7 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B1CDD64B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechChallenge.Fase3.Tests", "tests\TechChallenge.Fase3.Tests\TechChallenge.Fase3.Tests.csproj", "{A25E4AD5-CA6A-4A3D-BDB9-F776092A98BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechChallange.Fase3.Consumer", "src\TechChallange.Fase3.Consumer\TechChallange.Fase3.Consumer\TechChallange.Fase3.Consumer.csproj", "{2CB06856-59CB-4C80-901A-D3B98611666A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechChallange.Fase3.Consumer", "src\TechChallange.Fase3.Consumer\TechChallange.Fase3.Consumer.csproj", "{012CFC13-F863-4C34-9253-E422B9EC7904}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,10 +62,10 @@ Global
 		{A25E4AD5-CA6A-4A3D-BDB9-F776092A98BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A25E4AD5-CA6A-4A3D-BDB9-F776092A98BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A25E4AD5-CA6A-4A3D-BDB9-F776092A98BE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2CB06856-59CB-4C80-901A-D3B98611666A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2CB06856-59CB-4C80-901A-D3B98611666A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2CB06856-59CB-4C80-901A-D3B98611666A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2CB06856-59CB-4C80-901A-D3B98611666A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{012CFC13-F863-4C34-9253-E422B9EC7904}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{012CFC13-F863-4C34-9253-E422B9EC7904}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{012CFC13-F863-4C34-9253-E422B9EC7904}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{012CFC13-F863-4C34-9253-E422B9EC7904}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +73,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{6E1AD776-61A1-4E30-8204-4178FC976855} = {BB86C631-FE9C-49F1-8E33-B322A27B395A}
 		{A25E4AD5-CA6A-4A3D-BDB9-F776092A98BE} = {B1CDD64B-8AAD-4DAD-9C2A-7324C83DDDF5}
-		{2CB06856-59CB-4C80-901A-D3B98611666A} = {BB86C631-FE9C-49F1-8E33-B322A27B395A}
+		{012CFC13-F863-4C34-9253-E422B9EC7904} = {BB86C631-FE9C-49F1-8E33-B322A27B395A}
 	EndGlobalSection
 EndGlobal
