@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using EasyNetQ;
-using EasyNetQ.Logging;
 using TechChallenge.Fase3.DataTransfer.Utils;
 using TechChallenge.Fase3.Domain.Contatos.Comandos;
 using TechChallenge.Fase3.Domain.Contatos.Entidades;
@@ -12,7 +11,7 @@ using TechChallenge.Fase3.Domain.Utils;
 
 namespace TechChallenge.Fase3.Domain.Contatos.Servicos
 {
-    public class ContatosServico(IContatosRepositorio contatosRepositorio, IMensageriaBus mensageriaBus, IMapper mapper, ILogger<ContatosServico> logger) : IContatosServico
+    public class ContatosServico(IContatosRepositorio contatosRepositorio, IMensageriaBus mensageriaBus, IMapper mapper) : IContatosServico
     {
 
         public async Task<PaginacaoConsulta<Contato>> ListarPaginacaoContatosAsync(ContatosPaginadosFiltro request)
