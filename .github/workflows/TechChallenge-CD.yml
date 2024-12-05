@@ -22,7 +22,7 @@ jobs:
       uses: docker/build-push-action@v6.7.0
       with:
         context: .
-        file: ./src/TechChallange.Fase3.Consumer/Dockerfile
+        file: ./DockerfileConsumer
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/techchallenge-consumer:latest
 
@@ -30,5 +30,6 @@ jobs:
       uses: docker/build-push-action@v6.7.0
       with:
         context: .
+        file: ./DockerfileAPI
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/techchallenge-api:latest
