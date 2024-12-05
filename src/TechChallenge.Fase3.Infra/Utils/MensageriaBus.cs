@@ -17,6 +17,7 @@ namespace TechChallenge.Fase3.Infra.Utils
         {
             connectionString = configuration.GetConnectionString("rabbitmq")!;
             Bus = RabbitHutch.CreateBus(connectionString);
+            Console.WriteLine("BUS RABBIT CRIADO: " + connectionString);
         }
     }
 }
