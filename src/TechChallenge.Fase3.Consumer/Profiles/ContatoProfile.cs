@@ -2,7 +2,7 @@
 using TechChallenge.Fase3.Domain.Contatos.Comandos;
 using TechChallenge.Fase3.Domain.Contatos.Entidades;
 
-namespace TechChallange.Fase3.Consumer.Profiles
+namespace TechChallenge.Fase3.Consumer.Profiles
 {
     public class ContatoProfile : Profile
     {

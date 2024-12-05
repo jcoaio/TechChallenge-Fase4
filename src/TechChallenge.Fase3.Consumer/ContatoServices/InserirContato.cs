@@ -5,7 +5,7 @@ using TechChallenge.Fase3.Domain.Contatos.Repositorios;
 using TechChallenge.Fase3.Domain.Contatos.Servicos.Interfaces;
 using TechChallenge.Fase3.Domain.Utils;
 
-namespace TechChallange.Fase3.Consumer.ContatoServices
+namespace TechChallenge.Fase3.Consumer.ContatoServices
 {
     public class InserirContato(ILogger<InserirContato> logger, IContatosRepositorio contatosRepositorio, IMapper mapper, IMensageriaBus mensageriaBus)
     {

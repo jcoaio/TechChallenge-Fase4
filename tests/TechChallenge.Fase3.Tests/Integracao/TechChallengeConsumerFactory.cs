@@ -8,7 +8,7 @@ using TechChallenge.Fase3.Infra.Utils.DBContext;
 
 namespace TechChallenge.Fase3.Teste.Integracao
 {
-    public class TechChallengeConsumerFactory : WebApplicationFactory<TechChallange.Fase3.Consumer.Program>
+    public class TechChallengeConsumerFactory : WebApplicationFactory<Consumer.Program>
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {

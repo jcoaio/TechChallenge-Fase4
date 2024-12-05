@@ -1,12 +1,11 @@
-
-using TechChallange.Fase3.Consumer.ContatoServices;
+using TechChallenge.Fase3.Consumer.ContatoServices;
 using TechChallenge.Fase3.Domain.Contatos.Repositorios;
 using TechChallenge.Fase3.Domain.Contatos.Servicos.Interfaces;
 using TechChallenge.Fase3.Infra.Contatos;
 using TechChallenge.Fase3.Infra.Utils;
 using TechChallenge.Fase3.Infra.Utils.DBContext;
 
-namespace TechChallange.Fase3.Consumer
+namespace TechChallenge.Fase3.Consumer
 {
     public class Program
     {

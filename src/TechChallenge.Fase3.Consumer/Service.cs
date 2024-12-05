@@ -1,6 +1,6 @@
-﻿using TechChallange.Fase3.Consumer.ContatoServices;
+﻿using TechChallenge.Fase3.Consumer.ContatoServices;
 
-namespace TechChallange.Fase3.Consumer
+namespace TechChallenge.Fase3.Consumer
 {
     public class Service(InserirContato inserirContatoWorker, EditarContato editarContatoWorker, RemoverContato removerContatoWorker) : BackgroundService
     {
