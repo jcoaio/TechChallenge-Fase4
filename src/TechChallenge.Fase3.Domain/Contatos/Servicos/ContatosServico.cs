@@ -32,6 +32,8 @@ namespace TechChallenge.Fase3.Domain.Contatos.Servicos
             ContatoComando contatoComandos = mapper.Map<ContatoComando>(contatoInserir);
             try
             {
+                var queue = mensageriaBus.Bus.Advanced.QueueDeclare(TopicosRabbit.Inserir);
+
                 return mensageriaBus.Bus.PubSub.PublishAsync(contatoComandos, TopicosRabbit.Inserir);
             }
             catch (Exception e)
