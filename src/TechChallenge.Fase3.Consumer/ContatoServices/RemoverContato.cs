@@ -13,6 +13,7 @@ namespace TechChallange.Fase3.Consumer.ContatoServices
         {
             while (!cancellationToken.IsCancellationRequested)
             {
+                logger.LogInformation("Escutando...");
                 return mensageriaBus.Bus.PubSub.SubscribeAsync<ContatoComando>("QueueRemover", RemoverContatoAsync, x => x.WithTopic(TopicosRabbit.Remover), cancellationToken);
             }
 
