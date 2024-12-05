@@ -13,7 +13,7 @@ services:
   consumer:
     image: jcoaio/techchallenge-consumer:latest
     ports:
-      - "8081:8081"
+      - "8082:8080"
     networks:
       - technetwork
     depends_on:
