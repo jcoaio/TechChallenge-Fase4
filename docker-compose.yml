@@ -20,14 +20,10 @@ services:
       - bus
 
   bus:
-    image: rabbitmq:3-management
-    environment:
-      RABBITMQ_DEFAULT_USER: techchallenge
-      RABBITMQ_DEFAULT_PASS: 123456Tech
+    image: masstransit/rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"
-      - "25676:25676"
     networks:
       - technetwork
     depends_on:
