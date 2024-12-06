@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using MassTransit;
 using Microsoft.OpenApi.Models;
 using TechChallenge.Fase3.Application.Contatos.Servicos;
 using TechChallenge.Fase3.Domain.Contatos.Servicos;
@@ -15,6 +16,28 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<DapperContext>();
+
+
+ConfigurationManager configurationManager = builder.Configuration;
+
+string servidor = configurationManager.GetSection("Mensageria")["Servidor"] ?? string.Empty;
+string usuario = configurationManager.GetSection("Mensageria")["Usuario"] ?? string.Empty;
+string senha = configurationManager.GetSection("Mensageria")["Senha"] ?? string.Empty;
+
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(servidor, "/", h =>
+        {
+            h.Username(usuario);
+            h.Password(senha);
+        });
+
+        cfg.ConfigureEndpoints(context);
+    });
+});
+
 builder.Services.AddSingleton<IMensageriaBus, MensageriaBus>();
 
 builder.Services.Scan(scan => scan.FromAssemblyOf<ContatosAppServico>().AddClasses().AsImplementedInterfaces().WithScopedLifetime());

@@ -1,13 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AutoMapper;
-using EasyNetQ;
 using TechChallenge.Fase3.DataTransfer.Utils;
 using TechChallenge.Fase3.Domain.Contatos.Comandos;
 using TechChallenge.Fase3.Domain.Contatos.Entidades;
 using TechChallenge.Fase3.Domain.Contatos.Repositorios;
 using TechChallenge.Fase3.Domain.Contatos.Repositorios.Filtros;
 using TechChallenge.Fase3.Domain.Contatos.Servicos.Interfaces;
-using TechChallenge.Fase3.Domain.Utils;
 
 namespace TechChallenge.Fase3.Domain.Contatos.Servicos
 {
@@ -32,7 +30,7 @@ namespace TechChallenge.Fase3.Domain.Contatos.Servicos
             ContatoComando contatoComandos = mapper.Map<ContatoComando>(contatoInserir);
             try
             {
-                return mensageriaBus.Bus.PubSub.PublishAsync(contatoComandos, TopicosRabbit.Inserir);
+                return mensageriaBus.Enviar(contatoComandos, mensageriaBus.GetFilaInserir());
             }
             catch (Exception e)
             {
@@ -46,7 +44,7 @@ namespace TechChallenge.Fase3.Domain.Contatos.Servicos
         {
             Contato contato = await RecuperarContatoAsync(id) ?? throw new InvalidOperationException("Contato inexistente.");
             ContatoComando contatoComandos = mapper.Map<ContatoComando>(contato);
-            await mensageriaBus.Bus.PubSub.PublishAsync(contatoComandos, TopicosRabbit.Remover);
+            await mensageriaBus.Enviar(contatoComandos, mensageriaBus.GetFilaRemover());
         }
 
         public async Task<Contato> RecuperarContatoAsync(int id)
@@ -57,7 +55,7 @@ namespace TechChallenge.Fase3.Domain.Contatos.Servicos
         public async Task AtualizarContatoAsync(Contato contato)
         {
             ContatoComando contatoComandos = mapper.Map<ContatoComando>(contato);
-            await mensageriaBus.Bus.PubSub.PublishAsync(contatoComandos, TopicosRabbit.Editar);
+            await mensageriaBus.Enviar(contatoComandos, mensageriaBus.GetFilaEdicao());
         }
 
         private static void ValidarCampos(ContatoFiltro contatoRequest)

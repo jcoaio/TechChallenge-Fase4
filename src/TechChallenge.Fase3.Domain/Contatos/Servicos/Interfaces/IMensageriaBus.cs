@@ -1,9 +1,10 @@
-﻿using EasyNetQ;
-
-namespace TechChallenge.Fase3.Domain.Contatos.Servicos.Interfaces
+﻿namespace TechChallenge.Fase3.Domain.Contatos.Servicos.Interfaces
 {
     public interface IMensageriaBus
     {
-        public IBus Bus { get; set; }
+        Task Enviar<T>(T objeto, string nomeFila);
+        string GetFilaEdicao();
+        string GetFilaInserir();
+        string GetFilaRemover();
     }
 }

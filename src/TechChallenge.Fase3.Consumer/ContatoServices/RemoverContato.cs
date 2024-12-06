@@ -3,7 +3,6 @@ using TechChallenge.Fase3.Domain.Contatos.Comandos;
 using TechChallenge.Fase3.Domain.Contatos.Entidades;
 using TechChallenge.Fase3.Domain.Contatos.Repositorios;
 using TechChallenge.Fase3.Domain.Contatos.Servicos.Interfaces;
-using TechChallenge.Fase3.Domain.Utils;
 
 namespace TechChallenge.Fase3.Consumer.ContatoServices
 {
@@ -14,7 +13,7 @@ namespace TechChallenge.Fase3.Consumer.ContatoServices
             while (!cancellationToken.IsCancellationRequested)
             {
                 logger.LogInformation("Escutando...");
-                return mensageriaBus.Bus.PubSub.SubscribeAsync<ContatoComando>("QueueRemover", RemoverContatoAsync, x => x.WithTopic(TopicosRabbit.Remover), cancellationToken);
+                // return mensageriaBus.Bus.PubSub.SubscribeAsync<ContatoComando>("QueueRemover", RemoverContatoAsync, x => x.WithTopic(TopicosRabbit.Remover), cancellationToken);
             }
 
             return Task.CompletedTask;

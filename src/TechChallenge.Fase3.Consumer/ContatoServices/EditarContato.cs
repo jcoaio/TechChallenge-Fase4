@@ -3,7 +3,6 @@ using TechChallenge.Fase3.Domain.Contatos.Comandos;
 using TechChallenge.Fase3.Domain.Contatos.Entidades;
 using TechChallenge.Fase3.Domain.Contatos.Repositorios;
 using TechChallenge.Fase3.Domain.Contatos.Servicos.Interfaces;
-using TechChallenge.Fase3.Domain.Utils;
 
 namespace TechChallenge.Fase3.Consumer.ContatoServices
 {
@@ -13,7 +12,7 @@ namespace TechChallenge.Fase3.Consumer.ContatoServices
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                return mensageriaBus.Bus.PubSub.SubscribeAsync<ContatoComando>("QueueEditar", EditarContatoAsync, x => x.WithTopic(TopicosRabbit.Editar), cancellationToken);
+                // return mensageriaBus.Bus.PubSub.SubscribeAsync<ContatoComando>("QueueEditar", EditarContatoAsync, x => x.WithTopic(TopicosRabbit.Editar), cancellationToken);
             }
             return Task.CompletedTask;
         }

@@ -1,22 +1,42 @@
-﻿using EasyNetQ;
+﻿using MassTransit;
 using Microsoft.Extensions.Configuration;
 using TechChallenge.Fase3.Domain.Contatos.Servicos.Interfaces;
 namespace TechChallenge.Fase3.Infra.Utils
 {
     public class MensageriaBus : IMensageriaBus
     {
-        private readonly string connectionString;
-        public IBus Bus { get; set; }
-
+        public IBus _bus { get; set; }
+        public IConfiguration _configuration { get; set; }
+        public string FilaInsert { get; protected set; }
+        public string FilaEdicao { get; protected set; }
+        public string FilaRemover { get; protected set; }
         public MensageriaBus(string connectionString)
         {
-            this.connectionString = connectionString;
-            Bus = RabbitHutch.CreateBus(connectionString);
+
         }
-        public MensageriaBus(IConfiguration configuration)
+
+        public MensageriaBus(IConfiguration configuration, IBus bus)
         {
-            connectionString = configuration.GetConnectionString("rabbitmq")!;
-            Bus = RabbitHutch.CreateBus(connectionString);
+            _bus = bus;
+            _configuration = configuration;
+
+            FilaInsert = _configuration.GetSection("Mensageria")["NomeFilaInsercao"] ?? string.Empty;
+            FilaEdicao = _configuration.GetSection("Mensageria")["NomeFilaEdicao"] ?? string.Empty;
+            FilaRemover = _configuration.GetSection("Mensageria")["NomeFilaRemover"] ?? string.Empty;
         }
+
+        public async Task Enviar<T>(T request, string nomeFila)
+        {
+            if (request == null)
+                throw new ArgumentNullException("Objeto nulo.");
+
+            ISendEndpoint endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{nomeFila}"));
+            await endpoint.Send(request);
+        }
+
+        public string GetFilaInserir() => FilaInsert;
+        public string GetFilaEdicao() => FilaEdicao;
+        public string GetFilaRemover() => FilaRemover;
+
     }
 }

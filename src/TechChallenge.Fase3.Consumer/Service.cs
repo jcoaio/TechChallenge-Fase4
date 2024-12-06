@@ -2,7 +2,7 @@
 
 namespace TechChallenge.Fase3.Consumer
 {
-    public class Service(InserirContato inserirContatoWorker, EditarContato editarContatoWorker, RemoverContato removerContatoWorker) : BackgroundService
+    public class Service(InserirContatoConsumer inserirContatoWorker, EditarContato editarContatoWorker, RemoverContato removerContatoWorker) : BackgroundService
     {
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
@@ -10,9 +10,9 @@ namespace TechChallenge.Fase3.Consumer
             {
                 IEnumerable<Task> tasks = new Task[]
                     {
-                        editarContatoWorker.ExecuteAsync(cancellationToken),
-                        inserirContatoWorker.ExecuteAsync(cancellationToken),
-                        removerContatoWorker.ExecuteAsync(cancellationToken)
+                        //editarContatoWorker.ExecuteAsync(cancellationToken),
+                        //inserirContatoWorker.ExecuteAsync(cancellationToken),
+                        //removerContatoWorker.ExecuteAsync(cancellationToken)
                     }
                    .Select(task => task.ContinueWith(task =>
                    {
