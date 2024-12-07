@@ -36,6 +36,8 @@ namespace TechChallenge.Fase3.Consumer
             {
                 // Configura o consumidor
                 x.AddConsumer<InserirContatoConsumer>();
+                x.AddConsumer<RemoverContatoConsumer>();
+                x.AddConsumer<EditarContatoConsumer>();
 
                 // Configura o RabbitMQ ou outro transporte
                 x.UsingRabbitMq((context, cfg) =>
@@ -49,6 +51,8 @@ namespace TechChallenge.Fase3.Consumer
                     cfg.ReceiveEndpoint(filaInsert, e =>
                     {
                         e.ConfigureConsumer<InserirContatoConsumer>(context);
+                        e.ConfigureConsumer<RemoverContatoConsumer>(context);
+                        e.ConfigureConsumer<EditarContatoConsumer>(context);
                     });
                 });
             });
