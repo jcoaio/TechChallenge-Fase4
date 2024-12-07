@@ -1,5 +1,10 @@
 using MassTransit;
 using TechChallenge.Fase3.Consumer.Eventos;
+using TechChallenge.Fase3.Domain.Contatos.Repositorios;
+using TechChallenge.Fase3.Domain.Contatos.Servicos.Interfaces;
+using TechChallenge.Fase3.Infra.Contatos;
+using TechChallenge.Fase3.Infra.Utils;
+using TechChallenge.Fase3.Infra.Utils.DBContext;
 
 namespace TechChallenge.Fase3.Consumer
 {
@@ -12,6 +17,7 @@ namespace TechChallenge.Fase3.Consumer
 
             ConfigurationManager configurationManager = builder.Configuration;
 
+
             string servidor = configurationManager.GetSection("Mensageria")["Servidor"] ?? string.Empty;
             string usuario = configurationManager.GetSection("Mensageria")["Usuario"] ?? string.Empty;
             string senha = configurationManager.GetSection("Mensageria")["Senha"] ?? string.Empty;
@@ -20,6 +26,11 @@ namespace TechChallenge.Fase3.Consumer
             string filaRemover = configurationManager.GetSection("Mensageria")["NomeFilaRemover"] ?? string.Empty;
 
             builder.Services.AddHostedService<Worker>();
+
+            builder.Services.AddScoped<IContatosRepositorio, ContatosRepositorio>();
+            builder.Services.AddSingleton<IMensageriaBus, MensageriaBus>();
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.AddTransient<DapperContext>();
 
             builder.Services.AddMassTransit(x =>
             {
