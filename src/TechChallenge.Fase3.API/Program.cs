@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using MassTransit;
 using Microsoft.OpenApi.Models;
+using Prometheus;
 using TechChallenge.Fase3.Application.Contatos.Servicos;
 using TechChallenge.Fase3.Domain.Contatos.Servicos;
 using TechChallenge.Fase3.Domain.Contatos.Servicos.Interfaces;
@@ -13,6 +14,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.UseHttpClientMetrics();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<DapperContext>();
@@ -64,6 +66,9 @@ WebApplication app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseMetricServer();
+app.UseHttpMetrics();
 
 app.UseCors(c =>
 {
