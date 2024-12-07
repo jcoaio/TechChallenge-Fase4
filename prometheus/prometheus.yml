@@ -7,6 +7,11 @@ scrape_configs:
     scrape_interval: 5s   
     static_configs:
       - targets: ['api:8080']
+
+  - job_name: 'consumer'    
+    scrape_interval: 5s   
+    static_configs:
+      - targets: ['consumer:8082']
   
   - job_name: 'prometheus'        
     static_configs:
