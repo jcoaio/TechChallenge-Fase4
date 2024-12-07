@@ -1,21 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-Consumer-52c9e525-21ef-4d68-bce9-33c6f55ce07a</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MassTransit" Version="8.3.3" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.3.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TechChallenge.Fase3.DataTransfer\TechChallenge.Fase3.DataTransfer.csproj" />
     <ProjectReference Include="..\TechChallenge.Fase3.Domain\TechChallenge.Fase3.Domain.csproj" />
     <ProjectReference Include="..\TechChallenge.Fase3.Infra\TechChallenge.Fase3.Infra.csproj" />
   </ItemGroup>
-
 </Project>
