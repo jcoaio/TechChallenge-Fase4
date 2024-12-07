@@ -51,7 +51,15 @@ namespace TechChallenge.Fase3.Consumer
                     cfg.ReceiveEndpoint(filaInsert, e =>
                     {
                         e.ConfigureConsumer<InserirContatoConsumer>(context);
+                    });
+
+                    cfg.ReceiveEndpoint(filaRemover, e =>
+                    {
                         e.ConfigureConsumer<RemoverContatoConsumer>(context);
+                    });
+
+                    cfg.ReceiveEndpoint(filaEdicao, e =>
+                    {
                         e.ConfigureConsumer<EditarContatoConsumer>(context);
                     });
                 });
