@@ -2,17 +2,17 @@
 using MassTransit;
 using TechChallenge.Fase3.Domain.Contatos.Comandos;
 using TechChallenge.Fase3.Domain.Contatos.Entidades;
-using TechChallenge.Fase3.Domain.Contatos.Repositorios;
+using TechChallenge.Fase3.Domain.Contatos.Servicos.Interfaces;
 
 namespace TechChallenge.Fase3.Consumer.Eventos
 {
-    public class EditarContatoConsumer(IContatosRepositorio contatosRepositorio, IMapper mapper) : IConsumer<ContatoComando>
+    public class EditarContatoConsumer(IContatosServico contatosServico, IMapper mapper) : IConsumer<ContatoComando>
     {
         public async Task Consume(ConsumeContext<ContatoComando> context)
         {
             Contato contatoEdicao = mapper.Map<Contato>(context.Message);
-            Contato contato = await contatosRepositorio.AtualizarContatoAsync(contatoEdicao, context.CancellationToken);
-            Console.WriteLine($"Contato Editado: ID:{contato.Id}, RID:{context.RequestId}");
+            await contatosServico.AtualizarContatoAsync(contatoEdicao);
+            Console.WriteLine($"Contato Editado: Email:{contatoEdicao.Email}, RID:{context.RequestId}");
             Task.CompletedTask.Wait();
         }
     }

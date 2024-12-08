@@ -1,7 +1,6 @@
 using TechChallenge.Fase3.Consumer.Configurations;
-using TechChallenge.Fase3.Domain.Contatos.Repositorios;
+using TechChallenge.Fase3.Domain.Contatos.Servicos;
 using TechChallenge.Fase3.Domain.Contatos.Servicos.Interfaces;
-using TechChallenge.Fase3.Infra.Contatos;
 using TechChallenge.Fase3.Infra.Utils;
 using TechChallenge.Fase3.Infra.Utils.DBContext;
 
@@ -18,7 +17,7 @@ namespace TechChallenge.Fase3.Consumer
 
             builder.Services.AddHostedService<Worker>();
 
-            builder.Services.AddScoped<IContatosRepositorio, ContatosRepositorio>();
+            builder.Services.AddScoped<IContatosServico, ContatosServico>();
             builder.Services.AddSingleton<IMensageriaBus, MensageriaBus>();
             builder.Services.AddTransient<DapperContext>();
 
