@@ -51,16 +51,8 @@ namespace TechChallenge.Fase3.API.Controllers.Contatos
         [HttpPost]
         public async Task<ActionResult> InserirContato(ContatoCrudRequest request)
         {
-            try
-            {
-                await contatosAppServico.InserirContatoAsync(request);
-                return Ok();
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
+            await contatosAppServico.InserirContatoAsync(request);
+            return Ok();
         }
 
         /// <summary>
@@ -71,16 +63,8 @@ namespace TechChallenge.Fase3.API.Controllers.Contatos
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoverContatoAsync(int id)
         {
-            try
-            {
-                await contatosAppServico.RemoverContatoAsync(id);
-                return Ok();
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
+            await contatosAppServico.RemoverContatoAsync(id);
+            return Ok();
         }
 
         /// <summary>
@@ -92,16 +76,8 @@ namespace TechChallenge.Fase3.API.Controllers.Contatos
         [HttpPut("{id}")]
         public async Task<ActionResult> AtualizarContatoAsync(int id, [FromBody] ContatoCrudRequest request)
         {
-            try
-            {
-                await contatosAppServico.AtualizarContatoAsync(request, id);
-                return Ok();
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
+            await contatosAppServico.AtualizarContatoAsync(request, id);
+            return Ok();
         }
     }
 
