@@ -3,9 +3,9 @@ using TechChallenge.Fase3.Consumer.Eventos;
 
 namespace TechChallenge.Fase3.Consumer.Configurations
 {
-    public static class MassTransitConfiguration
+    public static class MassTransitConfig
     {
-        public static void Configure(IServiceCollection services, BusConfiguration busConfig)
+        public static void Configure(IServiceCollection services, BusConfig busConfig)
         {
             services.AddMassTransit(x =>
             {

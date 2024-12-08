@@ -13,17 +13,18 @@ namespace TechChallenge.Fase3.Consumer
         {
             HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 
-            builder.Services.Configure<BusConfiguration>(builder.Configuration.GetSection("Mensageria"));
-            BusConfiguration mensageriaConfig = builder.Configuration.GetSection("Mensageria").Get<BusConfiguration>() ?? throw new Exception("appSettings:Mensageria - Invalid JSON");
+            builder.Services.Configure<BusConfig>(builder.Configuration.GetSection("Mensageria"));
+            BusConfig mensageriaConfig = builder.Configuration.GetSection("Mensageria").Get<BusConfig>() ?? throw new FormatException("appSettings:Mensageria - Invalid JSON");
 
             builder.Services.AddHostedService<Worker>();
 
             builder.Services.AddScoped<IContatosRepositorio, ContatosRepositorio>();
             builder.Services.AddSingleton<IMensageriaBus, MensageriaBus>();
-            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.AddTransient<DapperContext>();
 
-            MassTransitConfiguration.Configure(builder.Services, mensageriaConfig);
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            MassTransitConfig.Configure(builder.Services, mensageriaConfig);
 
             IHost host = builder.Build();
             host.Run();

@@ -1,6 +1,6 @@
 ﻿namespace TechChallenge.Fase3.Consumer.Configurations
 {
-    public class BusConfiguration
+    public class BusConfig
     {
         public required string Servidor { get; set; }
         public required string Usuario { get; set; }
