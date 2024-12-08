@@ -1,3 +1,4 @@
+using Prometheus;
 using TechChallenge.Fase3.Consumer.Configurations;
 using TechChallenge.Fase3.Domain.Contatos.Repositorios;
 using TechChallenge.Fase3.Domain.Contatos.Servicos;
@@ -26,6 +27,9 @@ namespace TechChallenge.Fase3.Consumer
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             MassTransitConfig.Configure(builder.Services, mensageriaConfig);
+
+            using KestrelMetricServer server = new(port: 1234);
+            server.Start();
 
             IHost host = builder.Build();
             host.Run();
