@@ -8,5 +8,7 @@
         public required string NomeFilaInsercao { get; set; }
         public required string NomeFilaEdicao { get; set; }
         public required string NomeFilaRemover { get; set; }
+        public required string NomeExchange { get; set; }
+
     }
 }

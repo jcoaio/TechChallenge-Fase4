@@ -48,19 +48,31 @@ namespace TechChallenge.Fase3.Consumer
                     cfg.ReceiveEndpoint(mensageriaConfig.NomeFilaInsercao, e =>
                     {
                         e.ConfigureConsumer<InserirContatoConsumer>(context);
-                        e.Bind(mensageriaConfig.NomeFilaInsercao, x => x.RoutingKey = "contato.inserir.*");
+                        e.Bind(mensageriaConfig.NomeExchange, x =>
+                        {
+                            x.ExchangeType = "topic";
+                            x.RoutingKey = "Contato.Inserir";
+                        });
                     });
 
                     cfg.ReceiveEndpoint(mensageriaConfig.NomeFilaRemover, e =>
                     {
                         e.ConfigureConsumer<RemoverContatoConsumer>(context);
-                        e.Bind(mensageriaConfig.NomeFilaRemover, x => x.RoutingKey = "contato.remover.*");
+                        e.Bind(mensageriaConfig.NomeExchange, x =>
+                        {
+                            x.ExchangeType = "topic";
+                            x.RoutingKey = "Contato.Remover";
+                        });
                     });
 
                     cfg.ReceiveEndpoint(mensageriaConfig.NomeFilaEdicao, e =>
                     {
                         e.ConfigureConsumer<EditarContatoConsumer>(context);
-                        e.Bind(mensageriaConfig.NomeFilaEdicao, x => x.RoutingKey = "contato.editar.*");
+                        e.Bind(mensageriaConfig.NomeExchange, x =>
+                        {
+                            x.ExchangeType = "topic";
+                            x.RoutingKey = "Contato.Editar";
+                        });
                     });
                 });
             });
