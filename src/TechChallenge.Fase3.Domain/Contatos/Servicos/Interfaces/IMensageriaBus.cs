@@ -2,7 +2,7 @@
 {
     public interface IMensageriaBus
     {
-        Task Enviar<T>(T objeto, string nomeFila);
+        Task Enviar<T>(T objeto, string nomeFila, string routingKey);
         string GetFilaEdicao();
         string GetFilaInserir();
         string GetFilaRemover();

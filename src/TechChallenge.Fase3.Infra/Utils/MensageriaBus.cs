@@ -25,13 +25,13 @@ namespace TechChallenge.Fase3.Infra.Utils
             FilaRemover = _configuration.GetSection("Mensageria")["NomeFilaRemover"] ?? string.Empty;
         }
 
-        public async Task Enviar<T>(T request, string nomeFila)
+        public async Task Enviar<T>(T request, string nomeFila, string routingKey)
         {
             if (request == null)
                 throw new ArgumentNullException("Objeto nulo.");
 
-            ISendEndpoint endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{nomeFila}"));
-            await endpoint.Send(request);
+            ISendEndpoint endpoint = await _bus.GetSendEndpoint(new Uri($"{nomeFila}"));
+            await endpoint.Send(request, x => x.SetRoutingKey(routingKey));
         }
 
         public string GetFilaInserir() => FilaInsert;

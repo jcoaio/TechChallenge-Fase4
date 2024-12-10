@@ -30,7 +30,7 @@ namespace TechChallenge.Fase3.Domain.Contatos.Servicos
             ContatoComando contatoComandos = mapper.Map<ContatoComando>(contatoInserir);
             try
             {
-                return mensageriaBus.Enviar(contatoComandos, mensageriaBus.GetFilaInserir());
+                return mensageriaBus.Enviar(contatoComandos, mensageriaBus.GetFilaInserir(), "Contato.Inserir");
             }
             catch (Exception e)
             {
@@ -44,7 +44,7 @@ namespace TechChallenge.Fase3.Domain.Contatos.Servicos
         {
             Contato contato = await RecuperarContatoAsync(id) ?? throw new InvalidOperationException("Contato inexistente.");
             ContatoComando contatoComandos = mapper.Map<ContatoComando>(contato);
-            await mensageriaBus.Enviar(contatoComandos, mensageriaBus.GetFilaRemover());
+            await mensageriaBus.Enviar(contatoComandos, mensageriaBus.GetFilaRemover(), "Contato.Remover");
         }
 
         public async Task<Contato> RecuperarContatoAsync(int id)
@@ -55,7 +55,7 @@ namespace TechChallenge.Fase3.Domain.Contatos.Servicos
         public async Task AtualizarContatoAsync(Contato contato)
         {
             ContatoComando contatoComandos = mapper.Map<ContatoComando>(contato);
-            await mensageriaBus.Enviar(contatoComandos, mensageriaBus.GetFilaEdicao());
+            await mensageriaBus.Enviar(contatoComandos, mensageriaBus.GetFilaEdicao(), "Contato.Editar");
         }
 
         private static void ValidarCampos(ContatoFiltro contatoRequest)
