@@ -45,12 +45,12 @@ namespace TechChallenge.Fase3.Consumer
                         h.Password(mensageriaConfig.Senha);
                     });
 
+                    cfg.ExchangeType = "topic";
                     cfg.ReceiveEndpoint(mensageriaConfig.NomeFilaInsercao, e =>
                     {
                         e.ConfigureConsumer<InserirContatoConsumer>(context);
                         e.Bind(mensageriaConfig.NomeExchange, x =>
                         {
-                            x.ExchangeType = "topic";
                             x.RoutingKey = "Contato.Inserir";
                         });
                     });
@@ -60,7 +60,6 @@ namespace TechChallenge.Fase3.Consumer
                         e.ConfigureConsumer<RemoverContatoConsumer>(context);
                         e.Bind(mensageriaConfig.NomeExchange, x =>
                         {
-                            x.ExchangeType = "topic";
                             x.RoutingKey = "Contato.Remover";
                         });
                     });
@@ -70,7 +69,6 @@ namespace TechChallenge.Fase3.Consumer
                         e.ConfigureConsumer<EditarContatoConsumer>(context);
                         e.Bind(mensageriaConfig.NomeExchange, x =>
                         {
-                            x.ExchangeType = "topic";
                             x.RoutingKey = "Contato.Editar";
                         });
                     });
