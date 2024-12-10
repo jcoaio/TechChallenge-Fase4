@@ -1,5 +1,7 @@
+using MassTransit;
 using Prometheus;
 using TechChallenge.Fase3.Consumer.Configurations;
+using TechChallenge.Fase3.Consumer.Eventos;
 using TechChallenge.Fase3.Domain.Contatos.Repositorios;
 using TechChallenge.Fase3.Domain.Contatos.Servicos;
 using TechChallenge.Fase3.Domain.Contatos.Servicos.Interfaces;
@@ -26,7 +28,39 @@ namespace TechChallenge.Fase3.Consumer
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            MassTransitConfig.Configure(builder.Services, mensageriaConfig);
+            builder.Services.AddMassTransit(x =>
+            {
+                // Configura os consumidores
+                x.AddConsumer<InserirContatoConsumer>();
+                x.AddConsumer<RemoverContatoConsumer>();
+                x.AddConsumer<EditarContatoConsumer>();
+
+                // Configura o RabbitMQ ou outro transporte
+                x.UsingRabbitMq((context, cfg) =>
+                {
+
+                    cfg.Host(mensageriaConfig.Servidor, h =>
+                    {
+                        h.Username(mensageriaConfig.Usuario);
+                        h.Password(mensageriaConfig.Senha);
+                    });
+
+                    cfg.ReceiveEndpoint(mensageriaConfig.NomeFilaInsercao, e =>
+                    {
+                        e.ConfigureConsumer<InserirContatoConsumer>(context);
+                    });
+
+                    cfg.ReceiveEndpoint(mensageriaConfig.NomeFilaRemover, e =>
+                    {
+                        e.ConfigureConsumer<RemoverContatoConsumer>(context);
+                    });
+
+                    cfg.ReceiveEndpoint(mensageriaConfig.NomeFilaEdicao, e =>
+                    {
+                        e.ConfigureConsumer<EditarContatoConsumer>(context);
+                    });
+                });
+            });
 
             using KestrelMetricServer server = new(port: 1234);
             server.Start();
