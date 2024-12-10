@@ -13,11 +13,9 @@ namespace TechChallenge.Fase3.Consumer.Configurations
                 x.AddConsumer<InserirContatoConsumer>();
                 x.AddConsumer<RemoverContatoConsumer>();
                 x.AddConsumer<EditarContatoConsumer>();
-
                 // Configura o RabbitMQ ou outro transporte
                 x.UsingRabbitMq((context, cfg) =>
                 {
-
                     cfg.Host(busConfig.Servidor, h =>
                     {
                         h.Username(busConfig.Usuario);
@@ -27,16 +25,31 @@ namespace TechChallenge.Fase3.Consumer.Configurations
                     cfg.ReceiveEndpoint(busConfig.NomeFilaInsercao, e =>
                     {
                         e.ConfigureConsumer<InserirContatoConsumer>(context);
+                        e.Bind(busConfig.NomeExchange, x =>
+                        {
+                            x.ExchangeType = "topic";
+                            x.RoutingKey = "Contato.Inserir";
+                        });
                     });
 
                     cfg.ReceiveEndpoint(busConfig.NomeFilaRemover, e =>
                     {
                         e.ConfigureConsumer<RemoverContatoConsumer>(context);
+                        e.Bind(busConfig.NomeExchange, x =>
+                        {
+                            x.ExchangeType = "topic";
+                            x.RoutingKey = "Contato.Remover";
+                        });
                     });
 
                     cfg.ReceiveEndpoint(busConfig.NomeFilaEdicao, e =>
                     {
                         e.ConfigureConsumer<EditarContatoConsumer>(context);
+                        e.Bind(busConfig.NomeExchange, x =>
+                        {
+                            x.ExchangeType = "topic";
+                            x.RoutingKey = "Contato.Editar";
+                        });
                     });
                 });
             });
