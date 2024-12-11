@@ -13,7 +13,7 @@ namespace TechChallenge.Fase3.Consumer
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                await Task.Delay(10, stoppingToken);
+                await Task.Delay(100, stoppingToken);
             }
         }
     }

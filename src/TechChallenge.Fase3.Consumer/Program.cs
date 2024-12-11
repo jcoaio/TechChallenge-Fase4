@@ -1,7 +1,5 @@
-using MassTransit;
 using Prometheus;
 using TechChallenge.Fase3.Consumer.Configurations;
-using TechChallenge.Fase3.Consumer.Eventos;
 using TechChallenge.Fase3.Domain.Contatos.Repositorios;
 using TechChallenge.Fase3.Domain.Contatos.Servicos;
 using TechChallenge.Fase3.Domain.Contatos.Servicos.Interfaces;
@@ -28,58 +26,7 @@ namespace TechChallenge.Fase3.Consumer
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            builder.Services.AddMassTransit(x =>
-            {
-                // Configura os consumidores
-                x.AddConsumer<InserirContatoConsumer>();
-                x.AddConsumer<RemoverContatoConsumer>();
-                x.AddConsumer<EditarContatoConsumer>();
-
-                // Configura o RabbitMQ ou outro transporte
-                x.UsingRabbitMq((context, cfg) =>
-                {
-
-                    cfg.Host(mensageriaConfig.Servidor, h =>
-                    {
-                        h.Username(mensageriaConfig.Usuario);
-                        h.Password(mensageriaConfig.Senha);
-                    });
-
-                    cfg.ExchangeType = "topic";
-                    cfg.ReceiveEndpoint(mensageriaConfig.NomeFilaInsercao, e =>
-                    {
-                        e.ConfigureConsumer<InserirContatoConsumer>(context);
-                        e.Bind(mensageriaConfig.NomeExchange, x =>
-                        {
-                            x.ExchangeType = "topic";
-                            x.Durable = true;
-                            x.RoutingKey = "Contato.Inserir";
-                        });
-                    });
-
-                    cfg.ReceiveEndpoint(mensageriaConfig.NomeFilaRemover, e =>
-                    {
-                        e.ConfigureConsumer<RemoverContatoConsumer>(context);
-                        e.Bind(mensageriaConfig.NomeExchange, x =>
-                        {
-                            x.ExchangeType = "topic";
-                            x.Durable = true;
-                            x.RoutingKey = "Contato.Remover";
-                        });
-                    });
-
-                    cfg.ReceiveEndpoint(mensageriaConfig.NomeFilaEdicao, e =>
-                    {
-                        e.ConfigureConsumer<EditarContatoConsumer>(context);
-                        e.Bind(mensageriaConfig.NomeExchange, x =>
-                        {
-                            x.ExchangeType = "topic";
-                            x.Durable = true;
-                            x.RoutingKey = "Contato.Editar";
-                        });
-                    });
-                });
-            });
+            MassTransitConfig.ConfigurarMassTransit(builder, mensageriaConfig);
 
             using KestrelMetricServer server = new(port: 1234);
             server.Start();
@@ -87,6 +34,7 @@ namespace TechChallenge.Fase3.Consumer
             IHost host = builder.Build();
             host.Run();
         }
+
 
     }
 }
