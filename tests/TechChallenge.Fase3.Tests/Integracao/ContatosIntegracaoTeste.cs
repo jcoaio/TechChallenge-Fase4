@@ -1,7 +1,11 @@
 ﻿using System.Diagnostics;
 using System.Text;
 using FluentAssertions;
+using MassTransit;
+using MassTransit.Testing;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using TechChallenge.Fase3.Consumer.Eventos;
 using TechChallenge.Fase3.DataTransfer.Contatos.Reponses;
 using TechChallenge.Fase3.DataTransfer.Contatos.Requests;
 using TechChallenge.Fase3.DataTransfer.Utils;
@@ -9,19 +13,26 @@ using TechChallenge.Fase3.DataTransfer.Utils;
 namespace TechChallenge.Fase3.Teste.Integracao
 {
 
-    public class ContatosIntegracaoTeste : IClassFixture<TechChallengeApiFactory>, IClassFixture<TechChallengeConsumerFactory>
+    public class ContatosIntegracaoTeste : IClassFixture<TechChallengeApiFactory>, IAsyncLifetime
     {
         private readonly TechChallengeApiFactory techChallengeApiFactory;
-        private readonly TechChallengeConsumerFactory techChallengeConsumerFactory;
         private readonly HttpClient apiFactoryClient;
+        private readonly ServiceProvider _serviceProvider;
 
-        public ContatosIntegracaoTeste(TechChallengeApiFactory techChallengeApiFactory, TechChallengeConsumerFactory techChallengeConsumerFactory)
+        public ContatosIntegracaoTeste(TechChallengeApiFactory techChallengeApiFactory)
         {
             this.techChallengeApiFactory = techChallengeApiFactory;
             apiFactoryClient = techChallengeApiFactory.CreateClient();
 
-            this.techChallengeConsumerFactory = techChallengeConsumerFactory;
-            techChallengeConsumerFactory.CreateClient();
+            ServiceCollection serviceCollection = new();
+            serviceCollection.AddMassTransitTestHarness(cfg =>
+            {
+                cfg.AddConsumer<InserirContatoConsumer>(); // Adicione os consumers necessários
+                cfg.AddConsumer<EditarContatoConsumer>(); // Adicione os consumers necessários
+                cfg.AddConsumer<RemoverContatoConsumer>(); // Adicione os consumers necessários
+            });
+
+            _serviceProvider = serviceCollection.BuildServiceProvider();
         }
 
         private async Task<HttpResponseMessage> CriaContato()
@@ -44,6 +55,7 @@ namespace TechChallenge.Fase3.Teste.Integracao
         public async Task Cria_Contatos_Corretamente()
         {
             HttpResponseMessage result = await CriaContato();
+            ITestHarness harness = _serviceProvider.GetRequiredService<ITestHarness>();
             result.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         }
 
@@ -51,35 +63,10 @@ namespace TechChallenge.Fase3.Teste.Integracao
         [Fact]
         public async Task Listar_Contatos_Corretamente()
         {
-            int QUANTIDADE_CRIADA = 10;
-            int QUANTIDADE_ESPERADA = QUANTIDADE_CRIADA;
-            int MAXIMO_TENTATIVAS = 20;
-            int tentativa = 0;
-            for (int i = 0; i < QUANTIDADE_CRIADA; i++)
-            {
-                _ = await CriaContato();
-            }
-
             HttpResponseMessage result = await apiFactoryClient.GetAsync("api/contatos/itens");
-
-            while (QUANTIDADE_ESPERADA != 10)
-            {
-                List<ContatoResponse>? contatos = JsonConvert.DeserializeObject<List<ContatoResponse>>(await result.Content.ReadAsStringAsync());
-                if (contatos == null)
-                    break;
-
-                if (contatos.Count < 10)
-                    continue;
-
-                if (contatos.Count == 10)
-                    contatos.Count.Should().Be(QUANTIDADE_CRIADA);
-
-                tentativa++;
-
-                if (tentativa >= MAXIMO_TENTATIVAS)
-                    break;
-            }
-
+            List<ContatoResponse>? contatos = JsonConvert.DeserializeObject<List<ContatoResponse>>(await result.Content.ReadAsStringAsync());
+            Assert.NotNull(contatos);
+            contatos.Count.Should().BeGreaterThan(0);
             result.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         }
 
@@ -153,6 +140,16 @@ namespace TechChallenge.Fase3.Teste.Integracao
             HttpResponseMessage result = await apiFactoryClient.DeleteAsync($"api/contatos/{idDelecao}");
 
             result.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        }
+
+        public Task InitializeAsync()
+        {
+            return _serviceProvider.GetRequiredService<ITestHarness>().Start();
+        }
+
+        public Task DisposeAsync()
+        {
+            return _serviceProvider.DisposeAsync().AsTask();
         }
     }
 }

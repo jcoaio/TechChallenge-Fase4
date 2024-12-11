@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using MySql.Data.MySqlClient;
 using TechChallenge.Fase3.Domain.Contatos.Servicos.Interfaces;
 using TechChallenge.Fase3.Infra.Utils;
@@ -10,18 +10,21 @@ namespace TechChallenge.Fase3.Teste.Integracao
 {
     public class TechChallengeConsumerFactory : WebApplicationFactory<Consumer.Program>
     {
-        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        protected override IHost CreateHost(IHostBuilder builder)
         {
+            // Configure the builder to use the same setup as your worker
             builder.ConfigureServices(services =>
             {
                 string connectionString = "Server=localhost; Database=techchallenge; Uid=root; Pwd=Teste123;AllowUserVariables=true;";
                 string connectionStringBus = "amqp://guest:guest@localhost:5672/";
 
+                // Open a database connection to validate connectivity
                 using (MySqlConnection connection = new(connectionString))
                 {
                     connection.Open();
                 }
 
+                // Replace the existing service descriptors for testing
                 ServiceDescriptor? descriptorMySql = services.SingleOrDefault(
                     d => d.ServiceType == typeof(DapperContext));
 
@@ -39,8 +42,11 @@ namespace TechChallenge.Fase3.Teste.Integracao
                 }
 
                 services.AddSingleton(new DapperContext(connectionString));
-                services.AddSingleton<IMensageriaBus>(new MensageriaBus(connectionStringBus));
+                services.AddSingleton<IMensageriaBus>(new MensageriaBus(""));
             });
+
+            return base.CreateHost(builder);
         }
     }
+
 }

@@ -10,7 +10,8 @@ namespace TechChallenge.Fase3.Infra.Utils
         public string FilaInsert { get; protected set; }
         public string FilaEdicao { get; protected set; }
         public string FilaRemover { get; protected set; }
-        public MensageriaBus(string connectionString)
+
+        public MensageriaBus(string filaInsert)
         {
 
         }
@@ -25,13 +26,13 @@ namespace TechChallenge.Fase3.Infra.Utils
             FilaRemover = _configuration.GetSection("Mensageria")["NomeFilaRemover"] ?? string.Empty;
         }
 
-        public async Task Enviar<T>(T request, string nomeFila, string routingKey)
+        public async Task Enviar<T>(T request, string nomeFila)
         {
             if (request == null)
                 throw new ArgumentNullException("Objeto nulo.");
 
-            ISendEndpoint endpoint = await _bus.GetSendEndpoint(new Uri($"rabbitmq://localhost/{nomeFila}"));
-            await endpoint.Send(request, x => x.SetRoutingKey(routingKey));
+            ISendEndpoint endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{nomeFila}"));
+            await endpoint.Send(request);
         }
 
         public string GetFilaInserir() => FilaInsert;
