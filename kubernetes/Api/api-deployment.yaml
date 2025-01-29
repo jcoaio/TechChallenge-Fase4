@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+  namespace: techchallenge
+  labels:
+    app: techchallenge
+    component: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: techchallenge
+      component: api
+  template:
+    metadata:
+      labels:
+        app: techchallenge
+        component: api
+    spec:
+      containers:
+        - name: api
+          image: jcoaio/techchallenge-api:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
