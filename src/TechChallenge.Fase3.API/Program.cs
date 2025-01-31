@@ -48,7 +48,7 @@ builder.Services.Scan(scan => scan.FromAssemblyOf<ContatosServico>().AddClasses(
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-IConfigurationRoot configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").AddEnvironmentVariables().Build();
+IConfigurationRoot configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
