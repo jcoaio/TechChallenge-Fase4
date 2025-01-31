@@ -11,8 +11,15 @@ using TechChallenge.Fase3.Infra.Utils.DBContext;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
+builder.Configuration
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+    .AddEnvironmentVariables();
+
+
+// Add services to the container.
 builder.Services.AddControllers();
 builder.Services.UseHttpClientMetrics();
 builder.Services.AddEndpointsApiExplorer();
