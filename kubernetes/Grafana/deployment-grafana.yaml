@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: grafana-deployment
+  name: deployment-grafana
   namespace: techchallenge
   labels:
     app: techchallenge
