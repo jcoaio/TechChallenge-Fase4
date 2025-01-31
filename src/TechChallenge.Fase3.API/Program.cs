@@ -22,6 +22,11 @@ builder.Services.AddTransient<DapperContext>();
 
 ConfigurationManager configurationManager = builder.Configuration;
 
+foreach (var envVar in Environment.GetEnvironmentVariables())
+{
+    Console.WriteLine($"{envVar.Key}: {envVar.Value}");
+}
+
 string servidor = configurationManager.GetSection("Mensageria")["Servidor"] ?? string.Empty;
 string usuario = configurationManager.GetSection("Mensageria")["Usuario"] ?? string.Empty;
 string senha = configurationManager.GetSection("Mensageria")["Senha"] ?? string.Empty;
