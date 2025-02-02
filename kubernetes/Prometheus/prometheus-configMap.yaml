@@ -15,11 +15,11 @@ data:
       - job_name: 'api'    
         scrape_interval: 5s   
         static_configs:
-          - targets: ['api-service:8080']
+          - targets: ['svc-api:8080']
       - job_name: 'consumer'    
         scrape_interval: 5s   
         static_configs:
-          - targets: ['consumer-service:1234']
+          - targets: ['svc-consumer:1234']
       - job_name: 'prometheus'        
         static_configs:
           - targets: ['localhost:9090']

@@ -25,22 +25,22 @@ spec:
           ports:
             - containerPort: 8080
           env:
-            - name: database-connectionString
+            - name: ConnectionStrings__mysql
               valueFrom:
                 secretKeyRef:
                   name: secrets
                   key: database-connectionString
-            - name: bus-server
+            - name: Mensageria__Servidor
               valueFrom:
                 secretKeyRef:
                   name: secrets
                   key: bus-server
-            - name: bus-user
+            - name: Mensageria__Usuario
               valueFrom:
                 secretKeyRef:
                   name: secrets
                   key: bus-user
-            - name: bus-password
+            - name: Mensageria__Senha
               valueFrom:
                 secretKeyRef:
                   name: secrets
