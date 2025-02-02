@@ -17,8 +17,7 @@ namespace TechChallenge.Fase3.Consumer
 
             builder.Configuration.AddEnvironmentVariables();
 
-            var connectionString = Environment.GetEnvironmentVariable("database-connectionString") 
-                ?? throw new FormatException("Variável de ambiente 'database-connectionString' não foi encontrada!");
+            var connectionString = builder.Configuration.GetConnectionString("mysql");
 
             // Configuração da Mensageria
             var mensageriaConfig = new BusConfig
