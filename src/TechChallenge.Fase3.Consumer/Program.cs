@@ -17,6 +17,8 @@ namespace TechChallenge.Fase3.Consumer
 
             builder.Configuration.AddEnvironmentVariables();
 
+            var connectionString = builder.Configuration.GetConnectionString("mysql");
+
             var mensageriaConfig = builder.Configuration.GetSection("Mensageria").Get<BusConfig>() 
                 ?? throw new FormatException("Configuração de Mensageria não encontrada ou inválida!");
 
