@@ -17,8 +17,28 @@ namespace TechChallenge.Fase3.Consumer
 
             builder.Configuration.AddEnvironmentVariables();
 
-            var mensageriaConfig = new BusConfig();
-            builder.Configuration.GetSection("Mensageria").Bind(mensageriaConfig);
+            var mensageriaConfig = builder.Configuration.GetSection("Mensageria").Get<BusConfig>() 
+                ?? throw new FormatException("Configuração de Mensageria não encontrada ou inválida!");
+
+            if (string.IsNullOrEmpty(mensageriaConfig.Servidor) ||
+                string.IsNullOrEmpty(mensageriaConfig.Usuario) ||
+                string.IsNullOrEmpty(mensageriaConfig.Senha)) 
+               )
+            {
+                throw new FormatException("Configuração de Mensageria está incompleta. Verifique os Secrets!");
+                string.IsNullOrEmpty(mensageriaConfig.Senha)                 ) 
+               )
+            {
+                throw new FormatException("Configuração de Mensageria está incompleta. Verifique os Secrets!");
+                string.IsNullOrEmpty(mensageriaConfig.Senha)                 ) 
+               )
+            {
+                throw new FormatException("Configuração de Mensageria está incompleta. Verifique os Secrets!");
+                string.IsNullOrEmpty(mensageriaConfig.Senha)                 ) 
+               )
+            {
+                throw new FormatException("Configuração de Mensageria está incompleta. Verifique os Secrets!");
+            }
 
             builder.Services.Configure<BusConfig>(builder.Configuration.GetSection("Mensageria"));
 
