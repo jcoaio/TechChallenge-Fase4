@@ -17,23 +17,30 @@ namespace TechChallenge.Fase3.Consumer
 
             builder.Configuration.AddEnvironmentVariables();
 
-            var connectionString = builder.Configuration.GetConnectionString("mysql");
+            var connectionString = Environment.GetEnvironmentVariable("database-connectionString") 
+                ?? throw new FormatException("Variável de ambiente 'database-connectionString' não foi encontrada!");
 
-            builder.Services.Configure<BusConfig>(builder.Configuration.GetSection("Mensageria"));
+            // Configuração da Mensageria
+            var mensageriaConfig = new BusConfig
+            {
+                Servidor = Environment.GetEnvironmentVariable("bus-server") ?? throw new FormatException("Variável de ambiente 'bus-server' não foi encontrada!"),
+                Usuario = Environment.GetEnvironmentVariable("bus-user") ?? throw new FormatException("Variável de ambiente 'bus-user' não foi encontrada!"),
+                Senha = Environment.GetEnvironmentVariable("bus-password") ?? throw new FormatException("Variável de ambiente 'bus-password' não foi encontrada!"),
+                NomeFilaInsercao = "QueueInsercao",
+                NomeFilaEdicao = "QueueEdicao",
+                NomeFilaRemover = "QueueRemover"
+            };
 
-            Console.WriteLine("DEBUG - Variáveis de ambiente carregadas:");
-            Console.WriteLine($"bus-server: {Environment.GetEnvironmentVariable("bus-server")}");
-            Console.WriteLine($"bus-user: {Environment.GetEnvironmentVariable("bus-user")}");
-            Console.WriteLine($"bus-password: {Environment.GetEnvironmentVariable("bus-password")}");
-            
-            Console.WriteLine("DEBUG - Configuração carregada do appsettings:");
-            Console.WriteLine($"Servidor: {mensageriaConfig.Servidor}");
-            Console.WriteLine($"Usuario: {mensageriaConfig.Usuario}");
-            Console.WriteLine($"Senha: {mensageriaConfig.Senha}");
-
-            
-            var mensageriaConfig = builder.Configuration.GetSection("Mensageria").Get<BusConfig>() 
-                ?? throw new FormatException("Configuração de Mensageria não encontrada ou inválida!");
+            // Adiciona as configurações ao DI
+            builder.Services.Configure<BusConfig>(options =>
+            {
+                options.Servidor = mensageriaConfig.Servidor;
+                options.Usuario = mensageriaConfig.Usuario;
+                options.Senha = mensageriaConfig.Senha;
+                options.NomeFilaInsercao = mensageriaConfig.NomeFilaInsercao;
+                options.NomeFilaEdicao = mensageriaConfig.NomeFilaEdicao;
+                options.NomeFilaRemover = mensageriaConfig.NomeFilaRemover;
+            });
 
             builder.Services.AddHostedService<Worker>();
             builder.Services.AddScoped<IContatosServico, ContatosServico>();
