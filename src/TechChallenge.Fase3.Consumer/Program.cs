@@ -28,7 +28,8 @@ namespace TechChallenge.Fase3.Consumer
                 Senha = Environment.GetEnvironmentVariable("bus-password") ?? throw new FormatException("Variável de ambiente 'bus-password' não foi encontrada!"),
                 NomeFilaInsercao = "QueueInsercao",
                 NomeFilaEdicao = "QueueEdicao",
-                NomeFilaRemover = "QueueRemover"
+                NomeFilaRemover = "QueueRemover",
+                NomeExchange = "TechChallenge" 
             };
 
             // Adiciona as configurações ao DI
@@ -40,6 +41,7 @@ namespace TechChallenge.Fase3.Consumer
                 options.NomeFilaInsercao = mensageriaConfig.NomeFilaInsercao;
                 options.NomeFilaEdicao = mensageriaConfig.NomeFilaEdicao;
                 options.NomeFilaRemover = mensageriaConfig.NomeFilaRemover;
+                options.NomeExchange = mensageriaConfig.NomeExchange;
             });
 
             builder.Services.AddHostedService<Worker>();
