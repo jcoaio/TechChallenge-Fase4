@@ -20,6 +20,17 @@ namespace TechChallenge.Fase3.Consumer
             var connectionString = builder.Configuration.GetConnectionString("mysql");
 
             builder.Services.Configure<BusConfig>(builder.Configuration.GetSection("Mensageria"));
+
+            Console.WriteLine("DEBUG - Variáveis de ambiente carregadas:");
+            Console.WriteLine($"bus-server: {Environment.GetEnvironmentVariable("bus-server")}");
+            Console.WriteLine($"bus-user: {Environment.GetEnvironmentVariable("bus-user")}");
+            Console.WriteLine($"bus-password: {Environment.GetEnvironmentVariable("bus-password")}");
+            
+            Console.WriteLine("DEBUG - Configuração carregada do appsettings:");
+            Console.WriteLine($"Servidor: {mensageriaConfig.Servidor}");
+            Console.WriteLine($"Usuario: {mensageriaConfig.Usuario}");
+            Console.WriteLine($"Senha: {mensageriaConfig.Senha}");
+
             
             var mensageriaConfig = builder.Configuration.GetSection("Mensageria").Get<BusConfig>() 
                 ?? throw new FormatException("Configuração de Mensageria não encontrada ou inválida!");
