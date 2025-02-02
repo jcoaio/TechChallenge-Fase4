@@ -18,6 +18,15 @@ builder.Configuration
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
     .AddEnvironmentVariables();
 
+var connectionString = builder.Configuration.GetConnectionString("mysql");
+
+var mensageriaConfig = new
+{
+    Servidor = builder.Configuration["Mensageria:Servidor"],
+    Usuario = builder.Configuration["Mensageria:Usuario"],
+    Senha = builder.Configuration["Mensageria:Senha"]
+};
+
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -29,9 +38,9 @@ builder.Services.AddTransient<DapperContext>();
 
 ConfigurationManager configurationManager = builder.Configuration;
 
-string servidor = configurationManager.GetSection("Mensageria")["Servidor"] ?? string.Empty;
-string usuario = configurationManager.GetSection("Mensageria")["Usuario"] ?? string.Empty;
-string senha = configurationManager.GetSection("Mensageria")["Senha"] ?? string.Empty;
+string servidor = mensageriaConfig.Servidor ?? string.Empty;
+string usuario = mensageriaConfig.Usuario ?? string.Empty;
+string senha = mensageriaConfig.Senha ?? string.Empty;
 
 builder.Services.AddMassTransit(x =>
 {
