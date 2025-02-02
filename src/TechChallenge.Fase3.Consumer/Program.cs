@@ -19,17 +19,10 @@ namespace TechChallenge.Fase3.Consumer
 
             var connectionString = builder.Configuration.GetConnectionString("mysql");
 
+            builder.Services.Configure<BusConfig>(builder.Configuration.GetSection("Mensageria"));
+            
             var mensageriaConfig = builder.Configuration.GetSection("Mensageria").Get<BusConfig>() 
                 ?? throw new FormatException("Configuração de Mensageria não encontrada ou inválida!");
-
-            if (string.IsNullOrEmpty(mensageriaConfig.Servidor) ||
-                string.IsNullOrEmpty(mensageriaConfig.Usuario) ||
-                string.IsNullOrEmpty(mensageriaConfig.Senha))
-            {
-                throw new FormatException("Configuração de Mensageria está incompleta. Verifique os Secrets!");
-            }
-
-            builder.Services.Configure<BusConfig>(builder.Configuration.GetSection("Mensageria"));
 
             builder.Services.AddHostedService<Worker>();
             builder.Services.AddScoped<IContatosServico, ContatosServico>();
