@@ -22,20 +22,7 @@ namespace TechChallenge.Fase3.Consumer
 
             if (string.IsNullOrEmpty(mensageriaConfig.Servidor) ||
                 string.IsNullOrEmpty(mensageriaConfig.Usuario) ||
-                string.IsNullOrEmpty(mensageriaConfig.Senha)) 
-               )
-            {
-                throw new FormatException("Configuração de Mensageria está incompleta. Verifique os Secrets!");
-                string.IsNullOrEmpty(mensageriaConfig.Senha)                 ) 
-               )
-            {
-                throw new FormatException("Configuração de Mensageria está incompleta. Verifique os Secrets!");
-                string.IsNullOrEmpty(mensageriaConfig.Senha)                 ) 
-               )
-            {
-                throw new FormatException("Configuração de Mensageria está incompleta. Verifique os Secrets!");
-                string.IsNullOrEmpty(mensageriaConfig.Senha)                 ) 
-               )
+                string.IsNullOrEmpty(mensageriaConfig.Senha))
             {
                 throw new FormatException("Configuração de Mensageria está incompleta. Verifique os Secrets!");
             }
