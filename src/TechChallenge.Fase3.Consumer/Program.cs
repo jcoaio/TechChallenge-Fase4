@@ -13,7 +13,9 @@ namespace TechChallenge.Fase3.Consumer
     {
         public static void Main(string[] args)
         {
-            HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+            var builder = Host.CreateApplicationBuilder(args);
+
+            builder.Configuration.AddEnvironmentVariables();
 
             builder.Services.Configure<BusConfig>(builder.Configuration.GetSection("Mensageria"));
             BusConfig mensageriaConfig = builder.Configuration.GetSection("Mensageria").Get<BusConfig>() ?? throw new FormatException("appSettings:Mensageria - Invalid JSON");
@@ -34,7 +36,6 @@ namespace TechChallenge.Fase3.Consumer
             IHost host = builder.Build();
             host.Run();
         }
-
 
     }
 }

@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-deployment
+  name: deployment-bus
   namespace: techchallenge
   labels:
     app: techchallenge
-    component: api
+    component: bus
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: techchallenge
-      component: api
+      component: bus
   template:
     metadata:
       labels:
         app: techchallenge
-        component: api
+        component: bus
     spec:
       containers:
-        - name: api
-          image: jcoaio/techchallenge-api:latest
-          imagePullPolicy: Always
+        - name: rabbitmq
+          image: masstransit/rabbitmq
           ports:
-            - containerPort: 8080
+            - containerPort: 5672
+            - containerPort: 15672

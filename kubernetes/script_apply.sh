@@ -14,7 +14,7 @@ apply_yaml_files() {
 }
 
 # Diretórios a serem processados
-directories=("Api" "Bus" "Consumer" "Database" "Grafana" "Prometheus")
+directories=("Api" "Bus" "Consumer" "Database" "Grafana" "Prometheus" "Secrets")
 
 # Aplica os arquivos YAML de cada diretório
 for dir in "${directories[@]}"; do
