@@ -31,7 +31,7 @@ namespace TechChallenge.Fase3.Infra.Utils
             if (request == null)
                 throw new ArgumentNullException("Objeto nulo.");
 
-            ISendEndpoint endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{nomeFila}"));
+            ISendEndpoint endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{nomeFila}-{Environment.MachineName}"));
             await endpoint.Send(request);
         }
 
