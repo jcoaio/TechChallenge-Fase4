@@ -33,6 +33,11 @@ namespace TechChallenge.Fase3.Consumer.Configurations
                     {
                         e.ConfigureConsumer<InserirContatoConsumer>(context);
                     });
+
+                    cfg.ReceiveEndpoint("QueueInsercao-deployment-api-6969868474-xx4xd", e =>
+                    {
+                        e.ConfigureConsumer<InserirContatoConsumer>(context);
+                    });
                     
                     cfg.ReceiveEndpoint(mensageriaConfig.NomeFilaRemover, e =>
                     {
