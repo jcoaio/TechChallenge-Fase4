@@ -24,8 +24,9 @@ namespace TechChallenge.Fase3.Consumer.Configurations
                         h.Password(mensageriaConfig.Senha);
                     });
 
-                    cfg.ReceiveEndpoint(mensageriaConfig.NomeFilaInsercao, e =>
+                    cfg.ReceiveEndpoint("exchange_insercao", e =>
                     {
+                        e.Bind("QueueInsercao-deployment-*");
                         e.ConfigureConsumer<InserirContatoConsumer>(context);
                     });
 
