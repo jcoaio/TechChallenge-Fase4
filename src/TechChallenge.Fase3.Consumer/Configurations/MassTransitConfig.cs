@@ -24,16 +24,10 @@ namespace TechChallenge.Fase3.Consumer.Configurations
                         h.Password(mensageriaConfig.Senha);
                     });
 
-                    cfg.ReceiveEndpoint("exchange_insercao", e =>
+                    cfg.ReceiveEndpoint(mensageriaConfig.NomeFilaInsercao, e =>
                     {
-                        e.Bind("exchange_insercao", x =>
-                        {
-                            x.RoutingKey = "QueueInsercao-deployment-*";
-                        });
-                
                         e.ConfigureConsumer<InserirContatoConsumer>(context);
                     });
-
                     cfg.ReceiveEndpoint(mensageriaConfig.NomeFilaRemover, e =>
                     {
                         e.ConfigureConsumer<RemoverContatoConsumer>(context);
