@@ -26,7 +26,11 @@ namespace TechChallenge.Fase3.Consumer.Configurations
 
                     cfg.ReceiveEndpoint("exchange_insercao", e =>
                     {
-                        e.Bind("QueueInsercao-deployment-*");
+                        e.Bind("exchange_insercao", x =>
+                        {
+                            x.RoutingKey = "QueueInsercao-deployment-*";
+                        });
+                
                         e.ConfigureConsumer<InserirContatoConsumer>(context);
                     });
 
