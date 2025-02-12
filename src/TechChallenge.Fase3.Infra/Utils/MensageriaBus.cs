@@ -30,12 +30,9 @@ namespace TechChallenge.Fase3.Infra.Utils
         {
             if (request == null)
                 throw new ArgumentNullException("Objeto nulo.");
-
-            await _bus.Publish(request, context => 
-            {
-                context.SetRoutingKey($"{nomeFila}-deployment-{Environment.MachineName}");
-            });
-
+                
+            ISendEndpoint endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{nomeFila}-{Environment.MachineName}"));
+            await endpoint.Send(request);
         }
 
         public string GetFilaInserir() => FilaInsert;
