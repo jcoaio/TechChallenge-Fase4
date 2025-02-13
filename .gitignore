@@ -399,3 +399,6 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 .DS_Store
+kubernetes/service-account.yaml
+.DS_Store
+.DS_Store
