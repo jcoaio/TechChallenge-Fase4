@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: vicnp/techchallenge-frontend:latest
+          image: jcoaio/techchallenge-frontend:latest
           imagePullPolicy: Always
           ports:
               - containerPort: 3000
