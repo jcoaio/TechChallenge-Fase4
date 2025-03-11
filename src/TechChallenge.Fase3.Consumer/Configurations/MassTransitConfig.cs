@@ -28,7 +28,7 @@ namespace TechChallenge.Fase3.Consumer.Configurations
                     {
                         e.ConfigureConsumer<InserirContatoConsumer>(context);
                     });
-
+                    
                     cfg.ReceiveEndpoint(mensageriaConfig.NomeFilaRemover, e =>
                     {
                         e.ConfigureConsumer<RemoverContatoConsumer>(context);
